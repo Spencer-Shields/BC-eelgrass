@@ -1,0 +1,143 @@
+[
+	{
+		"title" : "Eelgrasses - Coastal Resource Information Management System (CRIMS)",
+		"name" : "eelgrasses-coastal-resource-information-management-system-crims",
+		"bcdc_data_resource_url" : "https://catalogue.data.gov.bc.ca/dataset/d507dc35-396c-4bb2-aa9b-815e2da0ccd5",
+		"description" : "Distribution of eelgrasses in coastal British Columbia showing relative abundance (RA) and overall relative importance (RI). RI is based on project region and not on the province as a whole. CRIMS is a legacy dataset of BC coastal resource data that was acquired in a systematic and synoptic manner from 1979 and was intermittently updated throughout the years. Resource information was collected in nine study areas using a peer-reviewed provincial Resource Information Standards Committee consisting of DFO Fishery Officers, First Nations, and other subject matter experts. There are currently no plans to update this legacy data. ",
+		"purpose" : "To provide data and analyses for coastal resource management, conservation, protection and planning applications. Data was originally collected to identify important use areas in the event of an oil spill.",
+		"bcdc_type" : "Geographic",
+		"last_modified" : "2025-03-15T12:42:22",
+		"resource_storage_location" : "Bc Geographic Warehouse",
+		"object_name" : "WHSE_WILDLIFE_MANAGEMENT.CRIMS_EELGRASSES",
+		"object_short_name" : "EELGRASSES",
+		"projection_name" : "epsg3005",
+		"license_title" : "Open Government Licence - British Columbia",
+		"license_url" : "https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61",
+		"details" : [
+			{
+				"column_name" : "EELGRASS_ID",
+				"data_precision" : "8",
+				"data_type" : "NUMBER",
+				"short_name" : "LGRSSD"
+			},
+			{
+				"column_name" : "FEATURE_CODE",
+				"data_precision" : "10",
+				"data_type" : "VARCHAR2",
+				"short_name" : "FTRCD"
+			},
+			{
+				"column_name" : "RA",
+				"data_precision" : "38",
+				"data_type" : "NUMBER",
+				"short_name" : "RA"
+			},
+			{
+				"column_name" : "RI",
+				"data_precision" : "1",
+				"data_type" : "NUMBER",
+				"short_name" : "RI"
+			},
+			{
+				"column_name" : "LOCATION",
+				"data_precision" : "150",
+				"data_type" : "VARCHAR2",
+				"short_name" : "LOCATION"
+			},
+			{
+				"column_name" : "FEATURE",
+				"data_precision" : "150",
+				"data_type" : "VARCHAR2",
+				"short_name" : "FEATURE"
+			},
+			{
+				"column_name" : "SPECIES",
+				"data_precision" : "50",
+				"data_type" : "VARCHAR2",
+				"short_name" : "SPECIES"
+			},
+			{
+				"column_name" : "TYPE_USE",
+				"data_precision" : "25",
+				"data_type" : "VARCHAR2",
+				"short_name" : "TYPE_USE"
+			},
+			{
+				"column_name" : "EGRASS_COMMENT",
+				"data_precision" : "150",
+				"data_type" : "VARCHAR2",
+				"short_name" : "GRSSCMMNT"
+			},
+			{
+				"column_name" : "SOURCE1",
+				"data_precision" : "50",
+				"data_type" : "VARCHAR2",
+				"short_name" : "SOURCE1"
+			},
+			{
+				"column_name" : "SOURCE2",
+				"data_precision" : "50",
+				"data_type" : "VARCHAR2",
+				"short_name" : "SOURCE2"
+			},
+			{
+				"column_name" : "SURVEY_TYPE",
+				"data_precision" : "150",
+				"data_type" : "VARCHAR2",
+				"short_name" : "SRVTP"
+			},
+			{
+				"column_name" : "MAP_DATE",
+				"data_precision" : "7",
+				"data_type" : "DATE",
+				"short_name" : "MAP_DATE"
+			},
+			{
+				"column_name" : "CONTACT",
+				"data_precision" : "75",
+				"data_type" : "VARCHAR2",
+				"short_name" : "CONTACT"
+			},
+			{
+				"column_name" : "PROJECT",
+				"data_precision" : "10",
+				"data_type" : "VARCHAR2",
+				"short_name" : "PROJECT"
+			},
+			{
+				"column_comments" : "GEOMETRY is the column used to reference the spatial coordinates defining the feature. ",
+				"column_name" : "GEOMETRY",
+				"data_precision" : "1",
+				"data_type" : "SDO_GEOMETRY",
+				"short_name" : "GEOMETRY"
+			},
+			{
+				"column_comments" : "OBJECTID is a required attribute of feature classes and object classes in a geodatabase. ",
+				"column_name" : "OBJECTID",
+				"data_precision" : "38",
+				"data_type" : "NUMBER",
+				"short_name" : "OBJECTID"
+			},
+			{
+				"column_comments" : "SE_ANNO_CAD_DATA is a binary column used by spatial tools to store annotation, curve features and CAD data when using the SDO_GEOMETRY storage data type. ",
+				"column_name" : "SE_ANNO_CAD_DATA",
+				"data_precision" : "4000",
+				"data_type" : "BLOB"
+			},
+			{
+				"column_comments" : "FEATURE_AREA_SQM is the system calculated area of a two-dimensional polygon in square meters",
+				"column_name" : "FEATURE_AREA_SQM",
+				"data_precision" : "19",
+				"data_type" : "NUMBER",
+				"short_name" : "AREA_SQM"
+			},
+			{
+				"column_comments" : "FEATURE_LENGTH_M is the system calculated length or perimeter of a geometry in meters",
+				"column_name" : "FEATURE_LENGTH_M",
+				"data_precision" : "19",
+				"data_type" : "NUMBER",
+				"short_name" : "FEAT_LEN"
+			}
+		]
+	}
+]

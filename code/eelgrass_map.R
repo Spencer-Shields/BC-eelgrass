@@ -187,27 +187,86 @@ bc_land = st_crop(land, aoi)
   )
 }
 
+#----load marine trails data----
+
+mt_sites_df = 'data/csv_datasets/BCMT Sites (Proximity).csv' |> 
+  read_csv() |>
+  #filter out values with
+  filter(!is.na(Latitude)&!is.na(Longitude))
+
+
+mt_sites <- st_as_sf(
+  mt_sites_df,
+  coords = c("Longitude", "Latitude"), # which columns to use
+  crs = 4326,                          # WGS84 (lat/long)
+  # coords = c('x', 'y'),
+  # crs = 3005,
+  remove = FALSE                       # keep original columns
+)
+mt_sites = mt_sites |> 
+  filter(!Description %in% c('Day Use',
+                             'Launch Site',
+                             'nan',
+                             'Closed Site',
+                             'Ferry Service'))
+mt_sites_filt_file = 'data/BCMT Sites Filtered.geojson'
+# st_write(mt_sites, mt_sites_filt_file)
+
+
+#----load BC CRIMS eelgrass data----
+
+# eg_crims_f = 'data/WHSE_WILDLIFE_MANAGEMENT.CRIMS_EELGRASSES_loader.kml'
+eg_crims_f = "data/BCGW_02001F02_1773528403579_6052/CRIMS_EELGRASSES.gdb"
+st_layers(eg_crims_f)
+eg_crims = st_read(eg_crims_f)
+
 #----eelgrass suitability from Ashley----
 eg_suit = rast('data/eelgrass_predictions_ss.tif')
 eg_suit = crop(eg_suit, project(vect(aoi), eg_suit), mask=T) |>
   project(aoi)
 
-high_p_mask = ifel(eg_suit > 0.2|eg_suit<0.1, NA, 1)
+high_p_mask = ifel(eg_suit < 0.1, NA, 1)
 eg_suit_highp = mask(eg_suit, high_p_mask)
 
 #----define seagrass sampling sites----
 #data taken from BC eelgrass atlas: https://cmnmaps.ca/eelgrassbc/
 
-eg_sites = tribble(
+eg_sites_tbl = tribble(
   ~lat, ~lon, ~id,
   49.401968, -123.472727, 'Keats1',
   50.124528, -124.704226, 'Prideaux_Haven1',
   50.037849, -125.264958, 'CR_millpond1',
   50.249021, -125.200306, 'Quadra1'
-) |>
-  st_as_sf(coords = c('lon', 'lat'),
+)
+eg_sites = eg_sites_tbl |> st_as_sf(coords = c('lon', 'lat'),
            crs=4326,
            remove=F)
+
+#----define route info----
+
+route_checkpoints = tribble(
+  ~name, ~type, ~subtype, ~lat, ~lon, ~note,
+  'Squamish', 'start-end', 'Start', 49.684560, -123.165779, '-',
+  'Desolation Sound', 'Stop', 'Main stop', 50.113258, -124.742548, 'Meet UBC group',
+  'Port Hardy', 'Stop', 'Main stop', 50.724590, -127.491238, 'Groceries, post office',
+  'Tahsis', 'Stop', 'Main stop', 49.923282, -126.655412, 'Groceries, post office',
+  'Tofino', 'Stop', 'Main stop', 49.153622, -125.910919, 'Groceries, post office',
+  'Port Renfrew', 'Stop', 'Main stop', 48.557550, -124.406919, 'Groceries, post office',
+  'Victoria', 'Stop', 'Main stop', 48.457685, -123.296081, 'Groceries, post office',
+  'Nanaimo', 'Stop', 'Main stop', 48.457685, -123.296081, 'Groceries, post office, ferry',
+  'Campbell River', 'start-end', 'Finish', 50.026759, -125.240396, '-',
+  'Sayward', 'Stop', 'Alternative stop', 50.397064, -125.960777, 'Post office, groceries far from kayak landing',
+  'San Josef Bay', 'Stop', 'Alternative stop', 50.673988, -128.281534, 'No amenities',
+  'Port Alice', 'Stop', 'Alternative stop', 50.427445, -127.485316, 'Groceries, post office',
+  'Bamfield', 'Stop', 'Alternative stop', 48.834508, -125.136868, 'Groceries, post office',
+  'Chemainus', 'Stop', 'Alternative stop', 48.928722, -123.717792, 'Groceries, post office',
+  'Qualicum Beach', 'Stop', 'Alternative stop', 49.354531, -124.458800, 'Groceries, post office',
+  'Comox', 'Stop', 'Alternative stop', 49.670796, -124.929063, 'Groceries, post office'
+  # ,
+  # 'Ucluelet', 'Stop', 'Alternative stop', 
+)
+route_checkpoints_f = 'data/route_checkpoints.csv'
+if(!file.exists(route_checkpoints_f)){write.csv(route_checkpoints, route_checkpoints_f)}
 
 #----plot----
 
@@ -245,7 +304,7 @@ suit_plot_highp = base_plot+
     guide = "none"
   ) +
   ggtitle("Estimated probability of occurence")
-suit_plot
+suit_plot_highp
 
 suit_plot2 = ggplot()+
   geom_spatvector(data=crop(vect(aoi),eg_suit), fill='darkgrey')+
@@ -290,3 +349,5 @@ obs_plot/suit_plot2
 #   # # scale_color_manual(label='iNaturalist')
 #   theme_void()+
 #   coord_sf()
+
+

@@ -1,0 +1,14 @@
+﻿------------------
+Order Details
+-----------------
+Order ID: 2545536
+Date: 20260314
+
+----------------------
+Feature Types
+-----------------------
+ - Eelgrasses - Coastal Resource Information Management System (CRI in subdirectory CRIMS_EELGRASSES
+
+----------------------------
+Packaged Products
+----------------------------
