@@ -27,10 +27,11 @@ schedule_sf <- schedule_df |>
   separate(`End lat lon`, into = c("End_lat", "End_lon"), sep = ", ", convert = TRUE, remove =F) |>
   st_as_sf(coords = c('End_lon', 'End_lat'), crs = 4326) |>
   mutate(Date = as.Date(Date),
-         `Daily distance (km)` = round(`Distance (km)`,1),
+         # `Daily distance (km)` = round(`Distance (km)`,1),
          `Cumulative distance (km)` = round(`Cumulative distance (km)`,1)
   ) |>
   select(-`Distance (nm)`)
+  
 
 #----load other data----
 
@@ -156,6 +157,7 @@ bcmt_sf$popup <- unname(apply(bcmt_df, 1, make_popup))
     options = list(
       deferRender = TRUE,
       scrollY = 300,
+      scrollX = T,
       scroller = TRUE
     )
   )
@@ -179,6 +181,13 @@ bcmt_sf$popup <- unname(apply(bcmt_df, 1, make_popup))
 }
 
 
-#----export html file for webmap----
+#----export html file for webmap, automatically update on github----
 
 htmltools::save_html(combined, 'expedition_map.html')
+
+#automatically commit and push to github
+library(gert)
+
+git_add("expedition_map.html")
+git_commit("update map")
+git_push()
