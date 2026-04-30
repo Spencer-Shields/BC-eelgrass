@@ -68,8 +68,8 @@ make_popup <- function(row) {
   )
 }
 
-bcmt_sf$popup = apply(bcmt_df, 1, make_popup)
-eg_sf$popup = apply(eg_df,1,make_popup)
+eg_sf$popup <- unname(apply(eg_df, 1, make_popup))
+bcmt_sf$popup <- unname(apply(bcmt_df, 1, make_popup))
 
 {
   
@@ -100,14 +100,14 @@ eg_sf$popup = apply(eg_df,1,make_popup)
     addPolygons(
       data = eg_sf,
       group = 'Eelgrass sampling locations',
-      popup = ~popup,
+      popup = eg_sf$popup,
       fillColor = 'purple',
       color = 'black'
     ) |>
     #bc marine trails data
     addCircleMarkers(
       data = bcmt_sf,
-      popup = ~popup,
+      popup = bcmt_sf$popup,
       group = "BC Marine Trails sites",
       fillColor = "firebrick",
       color='black',
@@ -178,3 +178,7 @@ eg_sf$popup = apply(eg_df,1,make_popup)
   combined
 }
 
+
+#----export html file for webmap----
+
+htmltools::save_html(combined, 'expedition_map.html')
